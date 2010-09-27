@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+	
+<project name="A. Worker ANT" default="package">
+	<property name="JAR.name" value="AbyssalCrafting" />
+	<!-- //	JAR.name
+		Name of the JAR file you wish to package.
+		
+		Example: ClassName.jar
+	-->
+	
+	<property name="JAR.deploy_to" value="/home/me/Runedev/Scripts/Precompiled/" />
+	<!-- //	JAR.deploy_to
+		The directory in which you wish to deploy your JAR package.
+				
+		Example: /home/me/Runedev/Scripts/Precompiled/
+	-->
+	
+	<target name="package" depends="jar, copy, clean" />
+
+	<target name="jar">
+		<jar destfile="${JAR.name}.jar" compress="true">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+			</manifest>
+			<fileset dir="./bin/">
+				<include name="**/*.*" />
+			</fileset>
+			<fileset dir="./src/">
+				<include name="**/*.*" />
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="copy" depends="jar">
+		<delete file="${JAR.deploy_to}/${JAR.name}.jar" />
+		<copy file="${JAR.name}.jar" todir="${JAR.deploy_to}" />
+	</target>
+	
+	<target name="clean" depends="jar, copy">
+		<delete file="${JAR.name}.jar" />
+	</target>
+</project>
